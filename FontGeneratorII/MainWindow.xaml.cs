@@ -74,13 +74,33 @@ namespace FontGeneratorII
 
     private void btnPrint_Click(object sender, RoutedEventArgs e)
     {
+      /*
       byte[] map = screen.CharMap.ToBytes();
 
-      textBox.Text = "";
+      outputText.Document.Blocks.Clear();
+
+      Paragraph header = new Paragraph();
+      header.Inlines.Add(new Bold(new Run("Character: " + Characters.SelectedValue.ToString())));
+      outputText.Document.Blocks.Add(header);
+            
+      Paragraph line = new Paragraph();
       foreach(byte b in map )
       {
-        this.textBox.Text += "0x" + b.ToString("X2") + " ";
+        line.Inlines.Add(new Run("0x" + b.ToString("X2") + " "));
       }
+      outputText.Document.Blocks.Add(line);
+      */
+
+      /*
+      outputText.Document.Blocks.Clear();
+      foreach(Block b in font.Print())
+      {
+        outputText.Document.Blocks.Add(b);
+      }
+      */
+
+      outputText.Document.Blocks.Clear();
+      outputText.Document.Blocks.Add(font.PrintCCode());
     }
 
     private void btnLoad_Click(object sender, RoutedEventArgs e)

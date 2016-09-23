@@ -94,5 +94,17 @@ namespace FontGeneratorII
       }
       return true;
     }
+
+    public string DataString()
+    {
+      string str = "";
+
+      foreach(byte b in DataBytes())
+      {
+        str += "0x" + b.ToString("X2") + ", ";
+      }
+      str = str.Substring(0, str.Length - 2);
+      return str;
+    }
   }
 }

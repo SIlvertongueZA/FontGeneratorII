@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace FontGeneratorII
 {
@@ -36,6 +37,11 @@ namespace FontGeneratorII
 
     public FontFile(string font_file)
     {
+      if ( font_file == null )
+        Name = "Unnamed";
+      else
+        Name = font_file;
+
       font_map = new SortedDictionary<char, CharacterMap>();
 
       if ( font_file == null )
@@ -167,5 +173,48 @@ namespace FontGeneratorII
     {
       return ((IEnumerable<char>)Characters).GetEnumerator();
     }
+
+    public List<Block> Print()
+    {
+      List<Block> blocks = new List<Block>();
+
+      Paragraph title = new Paragraph();
+      title.Inlines.Add(new Bold(new Run(Name)));
+
+      Paragraph characters = new Paragraph();
+
+      foreach ( KeyValuePair<char, CharacterMap> kvp in font_map )
+      {
+        characters.Inlines.Add(new Run(kvp.Key.ToString() + " : Width = " + kvp.Value.Width.ToString() + " Height = " + kvp.Value.Pages.ToString()));
+        characters.Inlines.Add(new Run(" Data = " + kvp.Value.DataString() + "\n"));
+      }
+
+      blocks.Add(title);
+      blocks.Add(characters);
+
+      return blocks;
+    }
+
+    public Paragraph PrintCCode()
+    {
+      Paragraph characters = new Paragraph();
+
+      foreach ( KeyValuePair<char, CharacterMap> kvp in font_map )
+      {
+        characters.Inlines.Add("const U8 ascii_char_");
+        characters.Inlines.Add("0x" + Convert.ToByte(kvp.Key).ToString("X2"));
+        characters.Inlines.Add("[] PROGMEM = {");
+        characters.Inlines.Add(kvp.Value.Pages.ToString());
+        characters.Inlines.Add(", ");
+        characters.Inlines.Add(kvp.Value.Width.ToString());
+        characters.Inlines.Add(", ");
+        characters.Inlines.Add(kvp.Value.DataString());
+        characters.Inlines.Add("}; /* " + kvp.Key.ToString() + " */\n");
+      }
+
+      return characters;
+    }
+
+
   } /* End Class */
 } /* Namespace */
