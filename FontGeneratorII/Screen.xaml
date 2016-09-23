@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="FontGeneratorII.Screen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FontGeneratorII"
+             mc:Ignorable="d" 
+             d:DesignHeight="308" d:DesignWidth="512">
+
+    <Grid MinWidth="512">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*" MinHeight="256"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Orientation="Horizontal">
+            <Button x:Name="btnUndo" Click="btnUndo_Click">
+                <Image x:Name="imgUndo" Source="{DynamicResource undo}" Width="20" Stretch="Fill"/>
+            </Button>
+            <Button x:Name="btnRedo" Click="btnRedo_Click">
+                <Image x:Name="imgRedo" Source="{DynamicResource undo}" RenderTransformOrigin="0.5,0.5" Width="20" Stretch="Fill">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="1" ScaleX="-1"/>
+                            <SkewTransform AngleY="0" AngleX="0"/>
+                            <RotateTransform Angle="0"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+            </Button>
+            <Button x:Name="btnClear" Content="Clear" Click="btnClear_Click"/>
+            <Menu>
+                <MenuItem Header="Pen Stlye">
+                    <MenuItem x:Name="btnSmallPen" Header="_Small" Click="btnSmallPen_Click"/>
+                    <MenuItem x:Name="btnMediumPen" Header="_Medium" Click="btnMediumPen_Click"/>
+                    <MenuItem x:Name="btnLargePen" Header="_Large" Click="btnLargePen_Click"/>
+                    <Separator/>
+                    <MenuItem x:Name="btnErasure" Header="_Erase" Click="btnErasure_Click"/>
+                </MenuItem>
+            </Menu>
+        </StackPanel>
+
+        <InkCanvas
+            Grid.Row="1"
+            Background="YellowGreen"
+            x:Name="canvas"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Width="128"
+            Height="64"
+            StrokeCollected="canvas_StrokeCollected"
+            RenderOptions.EdgeMode="Aliased"
+            
+            Gesture="canvas_Gesture" RenderTransformOrigin="0,0" SnapsToDevicePixels="True" EditingModeInverted="EraseByPoint">
+        </InkCanvas>
+
+        <Grid
+            Grid.Row="2"
+            HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="25"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Witdh:" Grid.Column="0"/>
+            <Slider x:Name="wSlider"  Grid.Column="1" HorizontalAlignment="Stretch" IsSnapToTickEnabled="True"
+                    Value="128" SmallChange="1" Maximum="128" Minimum="1" LargeChange="8"/>
+            <TextBox x:Name="wText" Text="128" Grid.Column="2" PreviewTextInput="numericPreview" KeyDown="wText_KeyDown" TextAlignment="Right"/>
+        </Grid>
+
+        <Grid
+            Grid.Row="3"
+            HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="25"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Pages:" Grid.Column="0"/>
+            <Slider x:Name="hSlider"  Grid.Column="1" HorizontalAlignment="Stretch" IsSnapToTickEnabled="True"
+                    Value="8" SmallChange="1" Maximum="8" Minimum="1" TickFrequency="1" LargeChange="2"/>
+            <TextBox x:Name="hText" Text="8" Grid.Column="2" PreviewTextInput="numericPreview" KeyDown="hText_KeyDown" TextAlignment="Right"/>
+        </Grid>
+    </Grid>
+
+</UserControl>
