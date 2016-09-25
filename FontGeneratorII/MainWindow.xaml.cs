@@ -25,8 +25,6 @@ namespace FontGeneratorII
     public FontFile font { get; set; }
     private Timer timer;
 
-    public List<string> Test { get; set; }
-
     char SelectedCharacter
     {
       get
@@ -40,12 +38,6 @@ namespace FontGeneratorII
 
     public MainWindow()
     {
-      Test = new List<string>();
-      Test.Add("e");
-      Test.Add("f");
-      Test.Add("g");
-      Test.Add("h");
-
       InitializeComponent();
 
       timer = new Timer();
@@ -54,10 +46,9 @@ namespace FontGeneratorII
       timer.Enabled = true;
       timer.Start();
 
-      font = new FontFile(null);
+      font = new FontFile();
 
       DataContext = this;
-
     }
 
     private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -116,6 +107,7 @@ namespace FontGeneratorII
 
     private void btnSave_Click(object sender, RoutedEventArgs e)
     {
+      CommitChar(SelectedCharacter);
       font.save();
     }
 
@@ -192,12 +184,25 @@ namespace FontGeneratorII
         Characters.Items.Add(c);
       }
       */
-//      CommitChar(SelectedCharacter);
+      CommitChar(SelectedCharacter);
     }
 
     private void btnCommit_Click(object sender, RoutedEventArgs e)
     {
       CommitChar(SelectedCharacter);
+    }
+
+    private void btnNew_Click(object sender, RoutedEventArgs e)
+    {
+      font = new FontFile();
+      Properties.Settings.Default.font_file = font.Path;
+
+      Properties.Settings.Default.Save();
+    }
+
+    private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+      screen.ReScale();
     }
   }
 }

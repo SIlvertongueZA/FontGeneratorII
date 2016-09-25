@@ -55,9 +55,6 @@ namespace FontGeneratorII
 
     ScaleTransform scale;
     double ScalingFactor = 4;
-    private readonly int canvasDisplayWidth = 512;
-    private readonly int canvasDisplayHeight = 256;
-    public bool MaintainAspectRatio = true;
 
     private int desiredScaleX;
     private int desiredScaleY;
@@ -75,31 +72,10 @@ namespace FontGeneratorII
 
         canvas.Width = value;
 
-        if ( !MaintainAspectRatio )
-        {
-          scale.ScaleX = canvasDisplayWidth / value;
-          ScalingFactor = scale.ScaleX;
-        }
-        else
-        {
-          desiredScaleX = canvasDisplayWidth / value;
-
-          /* Which axis is limitting */
-          if(desiredScaleX > desiredScaleY)
-          {
-            ScalingFactor = scale.ScaleY;
-            scale.ScaleX = desiredScaleY;
-            scale.ScaleY = desiredScaleY;
-          }
-          else
-          {
-            ScalingFactor = scale.ScaleX;
-            scale.ScaleX = desiredScaleX;
-            scale.ScaleY = desiredScaleX;
-          }
-        }
         wSlider.Value = canvas.Width;
         wText.Text = canvas.Width.ToString();
+
+        ReScale();
       }
     }
 
@@ -116,30 +92,31 @@ namespace FontGeneratorII
         value *= 8;
 
         canvas.Height = value;
-        if ( !MaintainAspectRatio )
-        {
-          scale.ScaleY = canvasDisplayHeight / value;
-          ScalingFactor = scale.ScaleY;
-        }
-        else
-        {
-          desiredScaleY = canvasDisplayHeight / value;
-          /* Which axis is limitting */
-          if(desiredScaleX > desiredScaleY)
-          {
-            ScalingFactor = scale.ScaleY;
-            scale.ScaleX = desiredScaleY;
-            scale.ScaleY = desiredScaleY;
-          }
-          else
-          {
-            ScalingFactor = scale.ScaleX;
-            scale.ScaleX = desiredScaleX;
-            scale.ScaleY = desiredScaleX;
-          }
-        }
+     
         hSlider.Value = canvas.Height / 8;
         hText.Text = (canvas.Height /8 ).ToString();
+
+        ReScale();
+      }
+    }
+
+    public void ReScale()
+    {
+      desiredScaleY = (int)(this.canvasRow.ActualHeight / canvas.Height);
+      desiredScaleX = (int)(this.ActualWidth / canvas.Width);
+
+      /* Which axis is limitting */
+      if ( desiredScaleX > desiredScaleY )
+      {
+        ScalingFactor = scale.ScaleY;
+        scale.ScaleX = desiredScaleY;
+        scale.ScaleY = desiredScaleY;
+      }
+      else
+      {
+        ScalingFactor = scale.ScaleX;
+        scale.ScaleX = desiredScaleX;
+        scale.ScaleY = desiredScaleX;
       }
     }
 
@@ -186,8 +163,8 @@ namespace FontGeneratorII
       InitializeComponent();
 
       scale = new ScaleTransform();
-      scale.ScaleX = 4;
-      scale.ScaleY = 4;
+      scale.ScaleX = 8;
+      scale.ScaleY = 8;
       desiredScaleX = (int)scale.ScaleX;
       desiredScaleY = (int)scale.ScaleY;
 
@@ -503,8 +480,11 @@ namespace FontGeneratorII
         }
       }
 
-      Stroke st = new Stroke(spc);
-      AddStrokeAsPoints(st);
+      if ( spc.Count > 0 )
+      {
+        Stroke st = new Stroke(spc);
+        AddStrokeAsPoints(st);
+      }
     }
 
     #endregion

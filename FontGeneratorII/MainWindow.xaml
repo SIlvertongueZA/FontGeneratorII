@@ -5,56 +5,59 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FontGeneratorII"
         mc:Ignorable="d"
-        Title="MainWindow" Height="565.358" Width="596.784">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        Title="MainWindow" Height="550" Width="600" WindowState="Maximized" SizeChanged="Window_SizeChanged">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="auto"/>
+      <ColumnDefinition Width="auto"/>
+      <ColumnDefinition Width="66*"/>
+      <ColumnDefinition Width="197*"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="auto"/>
+    </Grid.RowDefinitions>
 
-        <ToolBarTray Grid.Row="0" Grid.ColumnSpan="4">
-            <ToolBar>
-                <Menu>
-                    <MenuItem Header="File">
-                        <MenuItem x:Name="btnLoad" Header="_Open" Click="btnLoad_Click"/>
-                        <MenuItem x:Name="btnSave" Header="_Save" Click="btnSave_Click"/>
-                        <MenuItem x:Name="btnSaveAs" Header="_Save As" Click="btnSaveAs_Click"/>
-                        <Separator/>
-                        <MenuItem x:Name="btnExit" Header="_Exit" Click="btnExit_Click"/>
-                    </MenuItem>
+    <ToolBarTray Grid.Row="0" Grid.ColumnSpan="4">
+      <ToolBar>
+        <Menu>
+          <MenuItem Header="File">
+            <MenuItem x:Name="btnNew" Header="_New" Click="btnNew_Click"/>
+            <MenuItem x:Name="btnLoad" Header="_Open" Click="btnLoad_Click"/>
+            <Separator/>
+            <MenuItem x:Name="btnSave" Header="_Save" Click="btnSave_Click"/>
+            <MenuItem x:Name="btnSaveAs" Header="_Save As" Click="btnSaveAs_Click"/>
+            <Separator/>
+            <MenuItem x:Name="btnExit" Header="_Exit" Click="btnExit_Click"/>
+          </MenuItem>
 
-                </Menu>
-                <Button x:Name="btnAdd" Content="New Character" Click="btnAdd_Click"/>
-                <Button x:Name="btnPrint" Content="Print" Click="btnPrint_Click"/>
-            </ToolBar>
-        </ToolBarTray>
+        </Menu>
+        <Button x:Name="btnAdd" Content="New Character" Click="btnAdd_Click"/>
+        <Button x:Name="btnPrint" Content="Print" Click="btnPrint_Click"/>
+      </ToolBar>
+    </ToolBarTray>
 
-        <local:Screen x:Name="screen" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2"/>
+    <local:Screen x:Name="screen" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2"/>
 
-        <UniformGrid Grid.Row="1" Grid.Column="0" Rows="8" Columns="1">
-            <Label Content="Characters"/>
-            <ComboBox x:Name="Characters" SelectionChanged="Characters_SelectionChanged"
+    <UniformGrid Grid.Row="1" Grid.Column="0" Rows="8" Columns="1">
+      <Label Content="Characters"/>
+      <ComboBox x:Name="Characters" SelectionChanged="Characters_SelectionChanged"
                       DropDownOpened="Characters_DropDownOpened"
                       ItemsSource="{Binding font}"
                       >
-            </ComboBox>
+      </ComboBox>
 
-            <Button x:Name="btnCommit" Content="Commit" Click="btnCommit_Click"/>
-        </UniformGrid>
+      <Button x:Name="btnCommit" Content="Commit" Click="btnCommit_Click"/>
+    </UniformGrid>
 
-        <ScrollViewer Grid.Column="2" Grid.Row="2">
-            <RichTextBox x:Name="outputText">
-                <FlowDocument>
-                    
-                </FlowDocument>
-            </RichTextBox>
-        </ScrollViewer>
+    <ScrollViewer Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2">
+      <RichTextBox x:Name="outputText">
+        <FlowDocument>
 
-    </Grid>
+        </FlowDocument>
+      </RichTextBox>
+    </ScrollViewer>
+
+  </Grid>
 </Window>

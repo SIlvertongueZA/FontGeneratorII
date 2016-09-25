@@ -58,6 +58,17 @@ namespace FontGeneratorII
       }
     }
 
+    public FontFile()
+    {
+      Name = "Unnamed";
+      Path = null;
+      font_map = new SortedDictionary<char, CharacterMap>();
+      foreach(char c in CharacterSets.All)
+      {
+        font_map.Add(c, null);
+      }
+    }
+
     public CharacterMap GetCharmap(char c)
     {
       if ( font_map.ContainsKey(c) )
@@ -108,6 +119,8 @@ namespace FontGeneratorII
 
     public void save()
     {
+      if ( Path == null )
+        throw new Exception("No path given");
       if ( File.Exists(Path) )
         File.Delete(Path);
 
@@ -115,20 +128,23 @@ namespace FontGeneratorII
       {
         foreach ( KeyValuePair<char, CharacterMap> map in font_map )
         {
-          string line = "";
-          line += map.Key;
-          line += " : ";
-          line += "H = " + map.Value.Pages;
-          line += ", W = " + map.Value.Width;
-          line += ", Data = ";
-
-          foreach ( byte b in map.Value.DataBytes() )
+          if ( map.Value != null )
           {
-            line += "0x" + b.ToString("X2");
-            line += ", ";
+            string line = "";
+            line += map.Key;
+            line += " : ";
+            line += "H = " + map.Value.Pages;
+            line += ", W = " + map.Value.Width;
+            line += ", Data = ";
+
+            foreach ( byte b in map.Value.DataBytes() )
+            {
+              line += "0x" + b.ToString("X2");
+              line += ", ";
+            }
+            line = line.Substring(0, line.Length - 2);
+            sw.WriteLine(line);
           }
-          line = line.Substring(0, line.Length - 2);
-          sw.WriteLine(line);
         }
       }
     }
