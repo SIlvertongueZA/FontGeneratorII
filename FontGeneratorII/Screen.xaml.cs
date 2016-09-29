@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace FontGeneratorII
 {
@@ -27,6 +28,8 @@ namespace FontGeneratorII
       AddStroke,
       RemoveStroke,
       ErasePoint,
+      ShiftLeft,
+      ShiftRight,
       Clear,
     }
 
@@ -595,5 +598,92 @@ namespace FontGeneratorII
     }
 
     #endregion
+
+    private void shiftLeft_Click(object sender, RoutedEventArgs e)
+    {
+      Stroke temp;
+      StylusPointCollection spc = new StylusPointCollection();
+
+      foreach ( Stroke stroke in canvas.Strokes )
+      {
+        temp = stroke;
+
+        foreach ( StylusPoint point in temp.StylusPoints )
+        {
+          StylusPoint pt = new StylusPoint();
+          pt = point;
+          pt.X -= 1;
+          spc.Add(pt);
+        }
+      }
+      canvas.Strokes.Clear();
+      AddStrokeAsPoints(new Stroke(spc));
+    }
+
+    private void shiftRight_Click(object sender, RoutedEventArgs e)
+    {
+      Stroke temp;
+      StylusPointCollection spc = new StylusPointCollection();
+
+      CanvasWidth = CanvasWidth + 1;
+
+      foreach ( Stroke stroke in canvas.Strokes )
+      {
+        temp = stroke;
+
+        foreach ( StylusPoint point in temp.StylusPoints )
+        {
+          StylusPoint pt = new StylusPoint();
+          pt = point;
+          pt.X += 1;
+          spc.Add(pt);
+        }
+      }
+      canvas.Strokes.Clear();
+      AddStrokeAsPoints(new Stroke(spc));
+    }
+
+    private void shiftUp_Click(object sender, RoutedEventArgs e)
+    {
+      Stroke temp;
+      StylusPointCollection spc = new StylusPointCollection();
+
+      foreach ( Stroke stroke in canvas.Strokes )
+      {
+        temp = stroke;
+
+        foreach ( StylusPoint point in temp.StylusPoints )
+        {
+          StylusPoint pt = new StylusPoint();
+          pt = point;
+          pt.Y -= 1;
+          if(pt.Y >= 0)
+            spc.Add(pt);
+        }
+      }
+      canvas.Strokes.Clear();
+      AddStrokeAsPoints(new Stroke(spc));
+    }
+
+    private void shiftDown_Click(object sender, RoutedEventArgs e)
+    {
+      Stroke temp;
+      StylusPointCollection spc = new StylusPointCollection();
+
+      foreach ( Stroke stroke in canvas.Strokes )
+      {
+        temp = stroke;
+
+        foreach ( StylusPoint point in temp.StylusPoints )
+        {
+          StylusPoint pt = new StylusPoint();
+          pt = point;
+          pt.Y += 1;
+          spc.Add(pt);
+        }
+      }
+      canvas.Strokes.Clear();
+      AddStrokeAsPoints(new Stroke(spc));
+    }
   }
 }
