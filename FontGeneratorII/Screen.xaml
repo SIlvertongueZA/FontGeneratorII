@@ -18,11 +18,11 @@
     <StackPanel
             Orientation="Horizontal">
       <Button x:Name="btnUndo" Click="btnUndo_Click">
-        <Image x:Name="imgUndo" Width="20" Stretch="Fill" Source="pack://siteoforigin:,,,/Images/undo.png"/>
-      </Button>
+                <Image x:Name="imgUndo" Width="20" Stretch="Fill" Source="Images/undo.png"/>
+            </Button>
       <Button x:Name="btnRedo" Click="btnRedo_Click">
-        <Image x:Name="imgRedo" RenderTransformOrigin="0.5,0.5" Width="20" Stretch="Fill" Source="pack://siteoforigin:,,,/Images/undo.png">
-          <Image.RenderTransform>
+                <Image x:Name="imgRedo" RenderTransformOrigin="0.5,0.5" Width="20" Stretch="Fill" Source="Images/undo.png">
+                <Image.RenderTransform>
             <TransformGroup>
               <ScaleTransform ScaleY="1" ScaleX="-1"/>
               <SkewTransform AngleY="0" AngleX="0"/>
@@ -42,6 +42,14 @@
           <MenuItem x:Name="btnErasure" Header="_Erase" Click="btnErasure_Click"/>
         </MenuItem>
       </Menu>
+            <Menu>
+                <MenuItem Header="Shift">
+                    <MenuItem x:Name="shiftLeft" Header="_Left" Click="shiftLeft_Click"/>
+                    <MenuItem x:Name="shiftRight" Header="_Right" Click="shiftRight_Click"/>
+                    <MenuItem x:Name="shiftUp" Header="_Up" Click="shiftUp_Click"/>
+                    <MenuItem x:Name="shiftDown" Header="_Down" Click="shiftDown_Click"/>
+                </MenuItem>
+            </Menu>
     </StackPanel>
 
     <InkCanvas

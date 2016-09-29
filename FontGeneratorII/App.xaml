@@ -5,7 +5,5 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
-        <BitmapImage x:Key="undo" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="C:\Work\Checkout\Desktop\FontGeneratorII\FontGeneratorII\Images\undo.png"/>
-
     </Application.Resources>
 </Application>
